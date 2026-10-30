@@ -1,5 +1,8 @@
-select Lower(pokemon.identifier) , abilities.identifier from pokemon 
- join pokemon_abilities on (pokemon.id = pokemon_abilities.pokemon_id) 
- join abilities on (pokemon_abilities.ability_id = abilities.id ) 
- group by abilities.identifier having COUNT(DISTINCT pokemon.id)) = 1 ;
- order by pokemon.identifier
+SELECT LOWER(p.identifier) AS pokemon_name
+FROM pokemon p
+INNER JOIN pokemon_types pt ON p.id = pt.pokemon_id
+INNER JOIN types t          ON pt.type_id = t.id
+WHERE t.identifier IN ('flying', 'fighting')
+GROUP BY p.id
+HAVING COUNT(DISTINCT t.identifier) = 2
+ORDER BY pokemon_name;
